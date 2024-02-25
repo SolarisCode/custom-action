@@ -3,6 +3,7 @@ FROM ubuntu:focal
 RUN apt-get update \
 	&& apt-get install clang-format \
 	curl \
+	git \
 	jq -y
 
 COPY ./entrypoint.sh /usr/local/bin/
