@@ -9,7 +9,6 @@ check_linting_errors()
 		echo "No linting errors were found!"
 		exit 0
 	fi
-
 	echo "Some errors have been found!"
 }
 
@@ -18,10 +17,8 @@ push_linting_errors()
 {
 	check_linting_errors
 
-	ls -l
 	# Convert the linting error file to base64 to push to Github
-	ERRORS=$( base64 < ./errors.log )
-	echo "$ERRORS"
+	# ERRORS=$( base64 < ./errors.log )
 
 	echo "Pushing linting errors to the repo......"
 	# Using httpie and Github APIs tp push the linting error file to the repo
@@ -37,6 +34,7 @@ push_linting_errors()
 	# 	-H "X-GitHub-Api-Version: 2022-11-28" \
 	# 	https://api.github.com/repos/"$GITHUB_REPOSITORY"/contents/errors.log \
 	# 	-d "{\"message\":\"linting errors were detected!\",\"committer\":{\"name\":\"$GITHUB_ACTOR\",\"email\":\"$GITHUB_ACTOR@github.com\"},\"content\":\"$ERRORS\"}"
+	git config --global --add safe.directory /github/workspace
 	git add ./errors.log
 	git commit -m "Linting errors were detected!"
 	git push origin main
@@ -69,9 +67,6 @@ check_arguments()
 	fi
 }
 
-pwd
-ls -l
-jq < "$GITHUB_EVENT_PATH"
 if [ -z "$GITHUB_EVENT_PATH" ];
 then
 	echo "Something went wrong!"
