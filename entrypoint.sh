@@ -11,7 +11,7 @@ check_linting_errors()
 	fi
 
 	echo "Some errors have been found!"
-	cat errors.log
+	cat ./errors.log
 }
 
 # Push the found linting erros to the repo if there are any
@@ -19,8 +19,10 @@ push_linting_errors()
 {
 	check_linting_errors
 
+	ls -l
 	# Convert the linting error file to base64 to push to Github
-	ERRORS=$( base64 < errors.log )
+	ERRORS=$( base64 < ./errors.log )
+	echo "$ERRORS"
 
 	echo "Pushing linting errors to the repo......"
 	# Using httpie and Github APIs tp push the linting error file to the repo
@@ -66,7 +68,7 @@ check_arguments()
 }
 
 pwd
-ls -lRa
+ls -l
 if [ -z "$GITHUB_EVENT_PATH" ];
 then
 	echo "Something went wrong!"
