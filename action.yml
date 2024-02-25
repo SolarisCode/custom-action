@@ -1,0 +1,11 @@
+name: "Cpp Friendly Formater"
+description: "Check your code agianst the desired format style."
+author: "Solariscode"
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
+
+branding:
+  icon: "cloud-lightning"
+  color: "blue"
