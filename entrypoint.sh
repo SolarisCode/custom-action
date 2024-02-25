@@ -33,7 +33,7 @@ push_linting_errors()
 		-H "Authorization: Bearer $WEB_SERVER_TOKEN" \
 		-H "X-GitHub-Api-Version: 2022-11-28" \
 		https://api.github.com/repos/"$GITHUB_REPOSITORY"/contents/errors.log \
-		-d "{\"message\":\"linting errors were detected!\",\"content\":\"$ERRORS\"}"
+		-d \'{"message":"linting errors were detected!","content":"$ERRORS"}\'
 	# git config --global --add safe.directory /github/workspace
 	# git add ./errors.log
 	# git commit -m "Linting errors were detected!"
