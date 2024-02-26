@@ -22,10 +22,10 @@ push_linting_errors()
 
 	echo "Pushing linting errors to the repo......"
 	# Using httpie and Github APIs tp push the linting error file to the repo
-	http PUT https://api.github.com/repos/"$GITHUB_REPOSITORY"/contents/errors.log \
+	http --ignore-stdin PUT https://api.github.com/repos/"$GITHUB_REPOSITORY"/contents/errors.log \
 		"Authorization: Bearer $WEB_SERVER_TOKEN" \
 		message="linting errors were detected!" \
-		content="$ERRORS" < /dev/tty
+		content="$ERRORS"
 	# curl -L \
 	# 	-X PUT \
 	# 	-H "Accept: application/vnd.github+json" \
