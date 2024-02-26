@@ -3,7 +3,8 @@
 # Check Cpp files for linting errors
 check_linting_errors()
 {
-	clang-format -Werror --dry-run --style=webkit ./*.cpp ./*/*.cpp 2&> errors.log
+	# clang-format -Werror --dry-run --style=webkit ./*.cpp ./*/*.cpp 2&> errors.log
+	find . \(-name '*.cpp' -o -name '*.hpp'\) -exec clang-format -Werror --dry-run --style=webkit {} \; 2&> errors.log
 	if [[ $(wc -l < errors.log) == 0 ]];
 	then
 		echo "No linting errors were found!"
@@ -21,15 +22,19 @@ push_linting_errors()
 	# ERRORS=$( base64 < ./errors.log )
 	ERRORS="You need to fix these errors to comply with our code style"
 	ERRORS="## **$ERRORS**
+
 			$(cat errors.log)"
 
 	echo "Pushing linting errors to the repo......"
-	# Using httpie and Github APIs tp push the linting error file to the repo
+
+	# Using httpie and Github APIs to push the linting error file to the repo
 	# http --ignore-stdin PUT https://api.github.com/repos/"$GITHUB_REPOSITORY"/contents/errors.log \
 	# 	"Authorization: Bearer $WEB_SERVER_TOKEN" \
 	# 	message="linting errors were detected!" \
 	# 	content="$ERRORS" | jq .
 
+	# Using httpie to post the linting errors as an issue, label it and assign it to
+	# the responsible developer
 	http --ignore-stdin POST https://api.github.com/repos/"$GITHUB_REPOSITORY"/issues \
 		"Authorization: Bearer $WEB_SERVER_TOKEN" \
 		title="Cpp linting errors by $GITHUB_ACTOR" \
@@ -44,7 +49,8 @@ fix_linting_errors()
 	check_linting_errors
 
 	# Fix all the errors inplace using -i option
-	if clang-format -Werror -i --style=webkit ./*.cpp;
+	# if clang-format -Werror -i --style=webkit ./*.cpp;
+	if find . \(-name '*.cpp' -o -name '*.hpp'\) -exec clang-format -Werror -i --style=webkit {} \;
 	then
 		echo "All errors were resolved"
 	else
