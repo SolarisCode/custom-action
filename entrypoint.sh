@@ -4,7 +4,7 @@
 check_linting_errors()
 {
 	# clang-format -Werror --dry-run --style=webkit ./*.cpp ./*/*.cpp 2&> errors.log
-	find . \(-name '*.cpp' -o -name '*.hpp'\) -exec clang-format -Werror --dry-run --style=webkit {} \; 2&> errors.log
+	find . \(-name '*.cpp' -o -name '*.hpp'\) -exec clang-format -Werror --dry-run --style=webkit {} \; > errors.log 2>&1
 	if [[ $(wc -l < errors.log) == 0 ]];
 	then
 		echo "No linting errors were found!"
