@@ -20,7 +20,7 @@ push_linting_errors()
 	# Convert the linting error file to base64 to push to Github
 	# ERRORS=$( base64 < ./errors.log )
 	ERRORS="You need to fix these errors to comply with our code style"
-	ERRORS="$ERRORS
+	ERRORS="## **$ERRORS**
 			$(cat errors.log)"
 
 	echo "Pushing linting errors to the repo......"
@@ -33,6 +33,8 @@ push_linting_errors()
 	http --ignore-stdin POST https://api.github.com/repos/"$GITHUB_REPOSITORY"/issues \
 		"Authorization: Bearer $WEB_SERVER_TOKEN" \
 		title="Cpp linting errors by $GITHUB_ACTOR" \
+		labels=["linting", "invalid"] \
+		assignees=["$GITHUB_ACTOR"] \
 		body="$ERRORS" | jq .
 }
 
