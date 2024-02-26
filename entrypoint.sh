@@ -33,7 +33,7 @@ push_linting_errors()
 	http --ignore-stdin POST https://api.github.com/repos/"$GITHUB_REPOSITORY"/issues \
 		"Authorization: Bearer $WEB_SERVER_TOKEN" \
 		title="Cpp linting errors by $GITHUB_ACTOR" \
-		labels=["linting", "invalid"] \
+		labels=["linting"] \
 		assignees=["$GITHUB_ACTOR"] \
 		body="$ERRORS" | jq .
 }
