@@ -61,7 +61,7 @@ check_arguments()
 		fix_linting_errors
 	else
 		echo "$* Keyword argument was not found!"
-		exit 1
+		push_linting_errors
 	fi
 }
 
