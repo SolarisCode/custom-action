@@ -34,6 +34,9 @@ push_linting_errors()
 	# 	-H "X-GitHub-Api-Version: 2022-11-28" \
 	# 	https://api.github.com/repos/"$GITHUB_REPOSITORY"/contents/errors.log \
 	# 	-d \'{"message":"linting errors were detected!","content":"$ERRORS"}\'
+	echo "$GITHUB_REPOSITORY_OWNER_ID"
+	echo "$GITHUB_REPOSITORY_OWNER"
+	git config --global user.name "$GITHUB_REPOSITORY_OWNER_ID"
 	git config --global --add safe.directory /github/workspace
 	git add ./errors.log
 	git commit -m "Linting errors were detected!"
