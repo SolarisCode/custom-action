@@ -23,7 +23,7 @@ push_linting_errors()
 	echo "Pushing linting errors to the repo......"
 	# Using httpie and Github APIs tp push the linting error file to the repo
 	http --ignore-stdin PUT https://api.github.com/repos/"$GITHUB_REPOSITORY"/contents/errors.log \
-		"Authorization: Bearer $WEB_SERVER_TOKEN" \
+		"Authorization: Bearer $GITHUB_TOKEN" \
 		message="linting errors were detected!" \
 		content="$ERRORS"
 	# curl -L \
