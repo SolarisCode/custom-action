@@ -55,7 +55,7 @@ fix_linting_errors()
 
 check_arguments()
 {
-	if jq '.commits[].message, .head-commit.message' < "$GITHUB_EVENT_PATH" | grep -iq "$*";
+	if jq '.commits[].message, .head_commit.message' < "$GITHUB_EVENT_PATH" | grep -iq "$*";
 	then
 		echo "$* Keyword argument was found!"
 		fix_linting_errors
