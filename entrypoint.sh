@@ -44,7 +44,7 @@ fix_linting_errors()
 	check_linting_errors
 
 	# Fix all the errors inplace using -i option
-	if clang-format -Werror -i --style=webkit ./*.cpp ./*/*.cpp;
+	if clang-format -Werror -i --style=webkit ./*.cpp;
 	then
 		echo "All errors were resolved"
 	else
