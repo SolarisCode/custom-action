@@ -18,14 +18,21 @@ push_linting_errors()
 	check_linting_errors
 
 	# Convert the linting error file to base64 to push to Github
-	ERRORS=$( base64 < ./errors.log )
+	# ERRORS=$( base64 < ./errors.log )
+	ERRORS="You need to fix these errors to comply with our code style\n"
+	ERRORS="$ERRORS $(cat errors.log)"
 
 	echo "Pushing linting errors to the repo......"
 	# Using httpie and Github APIs tp push the linting error file to the repo
-	http --ignore-stdin PUT https://api.github.com/repos/"$GITHUB_REPOSITORY"/contents/errors.log \
+	# http --ignore-stdin PUT https://api.github.com/repos/"$GITHUB_REPOSITORY"/contents/errors.log \
+	# 	"Authorization: Bearer $WEB_SERVER_TOKEN" \
+	# 	message="linting errors were detected!" \
+	# 	content="$ERRORS" | jq .
+
+	http --ignore-stdin POST https://api.github.com/repos/"$GITHUB_REPOSITORY"/issues \
 		"Authorization: Bearer $WEB_SERVER_TOKEN" \
-		message="linting errors were detected!" \
-		content="$ERRORS" | jq .
+		title="Cpp linting error by $GITHUB_ACTOR" \
+		body="$ERRORS"
 }
 
 # Fix all the linting errors inplace if the "FIXIT" keyword mentioned in the commit message
