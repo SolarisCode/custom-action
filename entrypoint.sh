@@ -25,7 +25,7 @@ push_linting_errors()
 	http PUT https://api.github.com/repos/"$GITHUB_REPOSITORY"/contents/errors.log \
 		"Authorization: Bearer $WEB_SERVER_TOKEN" \
 		message="linting errors were detected!" \
-		content="$ERRORS"
+		content="$ERRORS" < /dev/tty
 	# curl -L \
 	# 	-X PUT \
 	# 	-H "Accept: application/vnd.github+json" \
