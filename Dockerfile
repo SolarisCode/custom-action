@@ -2,7 +2,7 @@ FROM ubuntu:focal
 
 RUN apt-get update \
 	&& apt-get install clang-format \
-	curl \
+	httpie \
 	git \
 	jq -y
 

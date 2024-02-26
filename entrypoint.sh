@@ -18,27 +18,26 @@ push_linting_errors()
 	check_linting_errors
 
 	# Convert the linting error file to base64 to push to Github
-	# ERRORS=$( base64 < ./errors.log )
+	ERRORS=$( base64 < ./errors.log )
 
 	echo "Pushing linting errors to the repo......"
 	# Using httpie and Github APIs tp push the linting error file to the repo
-	# http PUT https://api.github.com/repos/"$GITHUB_REPOSITORY"/contents/errors.log \
-	# 	"Authorization: Bearer $GITHUB_TOKEN" \
-	# 	message="linting errors were detected!" \
-	# 	committer:="{ \"name\": \"$GITHUB_ACTOR\", \"email\": \"$GITHUB_ACTOR@github.com\" }" \
-	# 	content="$ERRORS" | jq .
+	http PUT https://api.github.com/repos/"$GITHUB_REPOSITORY"/contents/errors.log \
+		"Authorization: Bearer $WEB_SERVER_TOKEN" \
+		message="linting errors were detected!" \
+		content="$ERRORS"
 	# curl -L \
 	# 	-X PUT \
 	# 	-H "Accept: application/vnd.github+json" \
 	# 	-H "Authorization: Bearer $WEB_SERVER_TOKEN" \
 	# 	-H "X-GitHub-Api-Version: 2022-11-28" \
 	# 	https://api.github.com/repos/"$GITHUB_REPOSITORY"/contents/errors.log \
-	# 	-d \'{"message":"linting errors were detected!","content":"$ERRORS"}\'
-	git config --global user.name "$GITHUB_REPOSITORY_OWNER"
-	git config --global --add safe.directory /github/workspace
-	git add ./errors.log
-	git commit -m "Linting errors were detected!"
-	git push https://"$GITHUB_REPOSITORY_OWNER":"$WEB_SERVER_TOKEN"@github.com/"$GITHUB_REPOSITORY".git main
+	# 	-d '{"message":"linting errors were detected!","content":"$ERRORS"}'
+	# git config --global user.name "$GITHUB_REPOSITORY_OWNER"
+	# git config --global --add safe.directory /github/workspace
+	# git add ./errors.log
+	# git commit -m "Linting errors were detected!"
+	# git push https://"$GITHUB_REPOSITORY_OWNER":"$WEB_SERVER_TOKEN"@github.com/"$GITHUB_REPOSITORY".git main
 }
 
 # Fix all the linting errors inplace if the "FIXIT" keyword mentioned in the commit message
