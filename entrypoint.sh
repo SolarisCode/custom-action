@@ -22,7 +22,8 @@ push_linting_errors()
 	ERRORS="You need to fix these errors to comply with our code style"
 	ERRORS="## **$ERRORS**
 
-			`$(cat errors.log)`"
+
+			$(cat errors.log)"
 
 	echo "Pushing linting errors to the repo......"
 
