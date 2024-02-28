@@ -3,8 +3,7 @@
 # Check Cpp files for linting errors
 check_linting_errors()
 {
-	clang-format -Werror --dry-run --style=webkit ./*.cpp ./*/*.cpp 2&> errors.log
-	#find . \(-name '*.cpp' -o -name '*.hpp'\) -exec clang-format -Werror --dry-run --style=webkit {} \;
+	find . -name '*.cpp' -o -name '*.hpp' | clang-format -Werror --dry-run --style=webkit > errors.log 2>&1
 	if [[ $(wc -l < errors.log) == 0 ]];
 	then
 		echo "No linting errors were found!"
@@ -23,7 +22,7 @@ push_linting_errors()
 	ERRORS="You need to fix these errors to comply with our code style"
 	ERRORS="## **$ERRORS**
 
-			$(cat errors.log)"
+			`$(cat errors.log)`"
 
 	echo "Pushing linting errors to the repo......"
 
@@ -49,8 +48,7 @@ fix_linting_errors()
 	check_linting_errors
 
 	# Fix all the errors inplace using -i option
-	if clang-format -Werror -i --style=webkit ./*.cpp;
-	# if find . \(-name '*.cpp' -o -name '*.hpp'\) -exec clang-format -Werror -i --style=webkit {} \;
+	if find . -name '*.cpp' -o -name '*.hpp' | xargs clang-format -Werror -i --style=webkit
 	then
 		echo "All errors were resolved"
 	else
