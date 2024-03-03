@@ -21,9 +21,9 @@ push_linting_errors()
 	# ERRORS=$( base64 < ./errors.log )
 	ERRORS="You need to fix these errors to comply with our code style"
 	ERRORS="## **$ERRORS**
-
-
-			$(cat errors.log)"
+	"
+	ERRORS="$ERRORS
+	$(cat errors.log)"
 
 	echo "Pushing linting errors to the repo......"
 
