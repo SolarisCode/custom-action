@@ -36,7 +36,7 @@ push_linting_errors()
 	# Using httpie to post the linting errors as an issue, label it and assign it to
 	# the responsible developer
 	http --ignore-stdin POST https://api.github.com/repos/"$GITHUB_REPOSITORY"/issues \
-		"Authorization: Bearer $WEB_SERVER_TOKEN" \
+		"Authorization: Bearer $GITHUB_TOKEN" \
 		title="Cpp linting errors by $GITHUB_ACTOR" \
 		labels:='["linting", "invalid"]' \
 		assignees:='["'"$GITHUB_ACTOR"'"]' \
